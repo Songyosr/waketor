@@ -32,7 +32,7 @@ count_tab <- \(x){
     Proportions_with_NA = NULL
 
     if (anyNA(Levels)) {
-      Proportions_with_NA = c(proportions(Count[-length(Count)]),NA)
+      Proportions_without_NA = c(proportions(Count[-length(Count)]),NA)
       .(Levels, Count, Proportions, Proportions_with_NA)
     }
     else .(Levels, Count, Proportions)

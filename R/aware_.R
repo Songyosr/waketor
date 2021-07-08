@@ -24,13 +24,13 @@ aware_summary <- \(x,...){
   UseMethod("aware_summary")
 }
 
+#' @export
 aware_summary.default <- \(x,...){
   summary(x)
 }
 
-aware_summary.integer <-
+#' @export
 aware_summary.numeric <- \(x, normality.test = TRUE, ...){
-
   #Summarize base on normality
   assertive.types::assert_is_a_bool(normality.test)
   x <- na.omit(x)

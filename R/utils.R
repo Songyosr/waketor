@@ -13,7 +13,7 @@
 
 # Class group
 class_grouping <- function(x) {
-  x <- dplyr::last(class(x))
+  x <- last(class(x))
   dplyr::case_when(
     x %in% c("integer", "numeric") ~ "Continuous",
     x %in% c("character", "factor") ~ "Categorical",
@@ -21,7 +21,7 @@ class_grouping <- function(x) {
     TRUE ~ x
   )
 }
-
+#load_all()
 # Example
 # class_grouping(Sys.time())
 # j <- sapply(BP, class_grouping)

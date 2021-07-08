@@ -20,7 +20,9 @@ Imports:
     assertthat,
     dplyr,
     MASS,
+    pillar,
     stats,
     tibble,
     utils,
-    vctrs
+    vctrs,
+    zeallot

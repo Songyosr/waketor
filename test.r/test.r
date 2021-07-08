@@ -22,9 +22,11 @@ j[1:30]
 vec_restore.ivec <- function(x, to, ..., i = NULL) {
   new_ivec(x, get_info(x))
 }
+purrr <- c("p", "u", "r", "r", "r")
+vec_group_id(purrr)
+vec_group_rle(purrr)
 
-
-
+vec_count(k)
 ?vector()
 # informative vect --------------------------------------------------------
 var_info_df <- data.frame(
@@ -46,7 +48,7 @@ var_info_df <- data.frame(
 
 new_ivec()
 ivec()
-new_ivec <- function(x = vector(), var_info = data.frame()) {
+new_ivec <- function(x = vector(), levels = NULL,var_info = data.frame()) {
   assertthat::assert_that(
       any(
         class(x) %in% c(
@@ -58,12 +60,10 @@ new_ivec <- function(x = vector(), var_info = data.frame()) {
     )
 
   # assertthat::are_equal(vec_ptype(var_info),vec_ptype(var_info_df))
-  new_vctr(x, var_info = var_info, class = c(class(x),"ivec"),
-           inherit_base_type = TRUE)
+  new_vctr(x, levels = levels,var_info = var_info, class = c("ivec",setdiff(class(x),"ivec")))
 }
 
-new_ivec()
-ivec()
+
 get_info <- \(x, var_name = NULL){
   df <- data.frame(
     var_name = var_name %||% deparse(substitute(x)),
@@ -89,14 +89,63 @@ ivec <- function(x =vector()) {
     msg = "'x' should only be a vector"
   )
   var_name <- deparse(substitute(x))
-  new_ivec(x, get_info(x, var_name = var_name))
+  new_ivec(x, levels = attr(x,"levels"),get_info(x, var_name = var_name))
 }
 
 ivec()
 
-epicalc::BP$sex |> ivec() |> class()
+
+t.ivec <- \(x,...) t.default(x,...)
+
+t(j) |>sloop::s3_dispatch()
+t.default
+t(j)
+k <- data.frame(j) #|> attributes()
+k |> class()
+
+obj_print.ivec <- obj_print
+
+print.ivec <- obj_print.ivec
+
+
+k
+t.d
+
+obj_print_data.ivec <- \(x,...){
+  class(x) <- attr(x, "var_info")$var_class
+  attr(x, "var_info") <- NULL
+  print(x,...)
+}
+
+
+j <- epicalc::BP$sex |> ivec()
+
+levels.ivec <- function(x){
+  attr(x, "levels")
+}
+
+sloop::s3_dispatch(print(j))
+vctrs::obj_print(j)
+
+class(j)
+print.default(j)
+isS3method("print")
+isS3method(print)
+isS3stdGeneric("class")
+class
+
+?isS3method
 j <- ivec(iris$Sepal.Length)
-attr(j, "var_info")
+j <- c(1.0,0.5)
+vec_ptype_abbr.ivec <- function(x, ...) {
+  paste0("a.",abbreviate(attr(x, "var_info")$var_class,3))
+}
+vec_ptype_full.ivec <- function(x, ...) {
+  paste0("a.",attr(x, "var_info")$var_class)
+
+}
+str(j)
+str(Sys.Date())
 # test --------------------------------------------------------------------
 obj_print_header.ivec <- function(x, ...) {
   if (length(x) == 0) {
@@ -117,5 +166,59 @@ obj_print_header.ivec <- function(x, ...) {
 am <- MASS::Animals
 vec_cast(1, ivec())
 
+.S3method(class = "vctrs_vctr")
+methods(class = "vctrs_vctr")
+vctrs::levels.vctrs_vctr
 
-class(am$body)
+methods("levels", class = "vctrs_vctr" ) |>print()
+
+
+k <- new_vctr(1:10, levels = letters[1:10], var_info = "A", class = c("ifactor"))# |> class()
+sloop::s3_dispatch(t(k))
+tibble::as_tibble(k1 =k, k2 = k)
+
+levels(k)
+
+levels.ifactor <- function(x){
+  attr(x, "levels")
+}
+
+
+
+t(1:10)
+t.ifactor <- \(x){
+
+}
+p
+
+?t()
+levels(k)
+
+t(k)
+tibble::as_tibble(k)
+
+tryCatch(k)
+print(k)
+print.factor
+levels.factor(k)
+levels.default
+
+vec.name <- list(
+  LETTERS,
+  1L,
+  0.5,
+  1+1i,
+  TRUE,
+  Sys.Date(),
+  Sys.time(),
+  factor("A"),
+  list()
+)
+sapply(vec.name, vec_ptype_abbr)
+sapply(vec.name, vec_ptype_full)
+
+sapply(vec.name, \(x) class(x) |> abbreviate(minlength = 3, ))
+abbreviate
+
+?vec_ptype_full
+

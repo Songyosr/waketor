@@ -25,4 +25,5 @@ Imports:
     tibble,
     utils,
     vctrs,
-    zeallot
+    zeallot,
+    data.table

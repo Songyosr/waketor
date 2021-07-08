@@ -13,7 +13,7 @@
 
 # Class group
 class_grouping <- function(x) {
-  x <- last(class(x))
+  x <- dplyr::last(class(x))
   dplyr::case_when(
     x %in% c("integer", "numeric") ~ "Continuous",
     x %in% c("character", "factor") ~ "Categorical",
@@ -21,6 +21,25 @@ class_grouping <- function(x) {
     TRUE ~ x
   )
 }
+
+# Count_Tab
+#' @import data.table
+
+count_tab <- \(x){
+  data.table::data.table(x)[, .("Count" = .N), by = x][,{
+    Levels = x
+    Proportions = proportions(Count)
+    Proportions_with_NA = NULL
+
+    if (anyNA(Levels)) {
+      Proportions_with_NA = c(proportions(Count[-length(Count)]),NA)
+      .(Levels, Count, Proportions, Proportions_with_NA)
+    }
+    else .(Levels, Count, Proportions)
+  }] |> suppressWarnings() |> as.data.frame()
+}
+
+
 #load_all()
 # Example
 # class_grouping(Sys.time())
@@ -82,3 +101,4 @@ summ_pval <- \(p.value, number = TRUE){
 # stars.pval
 # summ_pval(p.val)
 # rm(p.val)
+count_tab(airquality$Ozone > 3)
